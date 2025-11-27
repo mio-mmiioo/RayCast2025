@@ -1,4 +1,9 @@
 #include "Camera.h"
+#include "Input.h"
+
+namespace Camera {
+	float moveSpeed_ = 0.2f;
+}
 
 //変数
 XMVECTOR position_;	//カメラの位置（視点）
@@ -21,6 +26,15 @@ void Camera::Update()
 {
 	//ビュー行列の作成
 	viewMatrix_ = XMMatrixLookAtLH(position_, target_, XMVectorSet(0, 1, 0, 0));
+
+	if (Input::IsKeyDown(DIK_A))
+	{
+		position_ += XMVectorSet(moveSpeed_, 0, 0, 0);
+	}
+	else if (Input::IsKeyDown(DIK_D))
+	{
+		position_ -= XMVectorSet(moveSpeed_, 0, 0, 0);
+	}
 }
 
 //位置を設定

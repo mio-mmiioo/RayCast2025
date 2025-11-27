@@ -157,7 +157,7 @@ HRESULT Direct3D::InitShader3D()
 
     if (FAILED(hr))
     {
-        MessageBox(nullptr, "頂点シェーダの作成の作成に失敗しました", "エラー", MB_OK);
+        MessageBox(nullptr, L"頂点シェーダの作成の作成に失敗しました", L"エラー", MB_OK);
         return hr;
     }
 
@@ -172,7 +172,7 @@ HRESULT Direct3D::InitShader3D()
 
     if (FAILED(hr))
     {
-        MessageBox(nullptr, "ピクセルシェーダの作成の作成に失敗しました", "エラー", MB_OK);
+        MessageBox(nullptr, L"ピクセルシェーダの作成の作成に失敗しました", L"エラー", MB_OK);
         return hr;
     }
 
@@ -188,7 +188,7 @@ HRESULT Direct3D::InitShader3D()
 
     if (FAILED(hr))
     {
-        MessageBox(nullptr, "頂点インプットレイアウトの作成の作成に失敗しました", "エラー", MB_OK);
+        MessageBox(nullptr, L"頂点インプットレイアウトの作成の作成に失敗しました", L"エラー", MB_OK);
         return hr;
     }
 
@@ -228,7 +228,7 @@ HRESULT Direct3D::InitShader2D()
 
     if (FAILED(hr))
     {
-        MessageBox(nullptr, "頂点シェーダの作成の作成に失敗しました", "エラー", MB_OK);
+        MessageBox(nullptr, L"頂点シェーダの作成の作成に失敗しました", L"エラー", MB_OK);
         return hr;
     }
 
@@ -242,7 +242,7 @@ HRESULT Direct3D::InitShader2D()
         pCompilePS->GetBufferSize(), NULL, &(shaderBundle[SHADER_2D].pPixelShader));
     if (FAILED(hr))
     {
-        MessageBox(nullptr, "ピクセルシェーダの作成の作成に失敗しました", "エラー", MB_OK);
+        MessageBox(nullptr, L"ピクセルシェーダの作成の作成に失敗しました", L"エラー", MB_OK);
         return hr;
     }
 
@@ -257,7 +257,7 @@ HRESULT Direct3D::InitShader2D()
 
     if (FAILED(hr))
     {
-        MessageBox(nullptr, "頂点インプットレイアウトの作成の作成に失敗しました", "エラー", MB_OK);
+        MessageBox(nullptr, L"頂点インプットレイアウトの作成の作成に失敗しました", L"エラー", MB_OK);
         return hr;
     }
 

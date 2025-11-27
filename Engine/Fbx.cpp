@@ -167,7 +167,7 @@ void Fbx::InitVertex(FbxMesh* mesh)
 	hr = Direct3D::pDevice->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
+		MessageBox(NULL, L"頂点バッファの作成に失敗しました", L"エラー", MB_OK);
 	}
 
 
@@ -218,7 +218,7 @@ void Fbx::InitIndex(FbxMesh* mesh)
 		hr = Direct3D::pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer_[i]);
 		if (FAILED(hr))
 		{
-			MessageBox(NULL, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
+			MessageBox(NULL, L"インデックスバッファの作成に失敗しました", L"エラー", MB_OK);
 		}
 	}
 }
@@ -239,7 +239,7 @@ void Fbx::InitConstantBuffer()
 	hr = Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);
+		MessageBox(NULL, L"コンスタントバッファの作成に失敗しました", L"エラー", MB_OK);
 	}
 }
 
@@ -270,7 +270,7 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 			else
 			{
 				//テクスチャファイルが無いときの処理(エラー）
-				MessageBox(NULL, "テクスチャファイルが見つかりませんでした", "エラー", MB_OK);
+				MessageBox(NULL, L"テクスチャファイルが見つかりませんでした", L"エラー", MB_OK);
 			}
 
 		}
