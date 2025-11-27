@@ -14,7 +14,6 @@ TestScene::~TestScene()
 
 void TestScene::Initialize()
 {
-	//Instantiate<Enemy>(this);
 }
 
 void TestScene::Update()
