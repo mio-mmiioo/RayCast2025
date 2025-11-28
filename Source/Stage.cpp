@@ -23,7 +23,7 @@ void Stage::Initialize()
 	pSphereCollider_ = new SphereCollider(1.0f);
 	AddCollider(pSphereCollider_);
 
-	hModel_ = Model::Load("empty.fbx");
+	hModel_ = Model::Load("BoxDefault.fbx");
 
 	map_.resize(15);
 	Transform check;
@@ -36,7 +36,7 @@ void Stage::Initialize()
 			check.position_.x = addX + j * 1.0f;
 			check.position_.z = addZ + i * 1.0f;
 			map_[i].push_back(1);
-			hMapModel_[i * map_.size() + j] = Model::Load("empty.fbx");
+			hMapModel_[i * map_.size() + j] = Model::Load("BoxDefault.fbx");
 			Model::SetTransform(hMapModel_[i * map_.size() + j], check);
 		}
 	}
