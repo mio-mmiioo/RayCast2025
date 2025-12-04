@@ -11,6 +11,15 @@
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 
+// RayCastのためのデータを用意
+struct RayCastData
+{
+	XMFLOAT4 start;
+	XMFLOAT4 direction;
+	bool isHit;
+	float distance;
+};
+
 class Fbx
 {
 	//マテリアル
@@ -43,6 +52,8 @@ class Fbx
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
+
+	void RayCast(RayCastData& rayData);
 
 public:
 

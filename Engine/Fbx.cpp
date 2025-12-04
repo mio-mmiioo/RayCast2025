@@ -292,3 +292,20 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 
 	}
 }
+
+
+void Fbx::RayCast(RayCastData& rayData)
+{
+	for (int material = 0; material < materialCount_; material++)
+	{
+		// グループごとに全ポリゴンに対して
+		// 頂点を三つ取ってくる
+		//XMVECTOR vv0 = pVertices_[ppIndex_[material][poly * 3 + 0]].position;
+		//XMVECTOR vv1 = pVertices_[ppIndex_[material][poly * 3 + 1]].position;
+		//XMVECTOR vv2 = pVertices_[ppIndex_[material][poly * 3 + 2]].position;
+		XMVECTOR start = XMLoadFloat4(&rayData.start);
+		XMVECTOR direction = XMLoadFloat4(&rayData.direction);
+		XMVECTOR dirN = XMVector4Normalize(direction); // directionの単位ベクトル
+		rayData.isHit = InterSects();
+	}
+}
