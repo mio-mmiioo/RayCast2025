@@ -53,6 +53,8 @@ class Fbx
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
 
+	std::vector<VERTEX> pVertices_; // 頂点データ全部
+	std::vector <std::vector<int>> ppIndex_; // マテリアルごとのインデックスデータ[material][index]
 	void RayCast(RayCastData& rayData);
 
 public:

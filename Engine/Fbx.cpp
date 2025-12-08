@@ -126,7 +126,8 @@ void Fbx::Release()
 
 void Fbx::InitVertex(FbxMesh* mesh)
 {
-	VERTEX* vertices = new VERTEX[vertexCount_];
+	//VERTEX* vertices = new VERTEX[vertexCount_];
+	pVertices_.resize(vertexCount_);
 	//全ポリゴン
 	for (long poly = 0; poly < polygonCount_; poly++)
 	{
@@ -138,18 +139,18 @@ void Fbx::InitVertex(FbxMesh* mesh)
 
 			//頂点の位置
 			FbxVector4 pos = mesh->GetControlPointAt(index);
-			vertices[index].position = XMVectorSet((float)pos[0], (float)pos[1], (float)pos[2], 0.0f);
+			pVertices_[index].position = XMVectorSet((float)pos[0], (float)pos[1], (float)pos[2], 0.0f);
 
 			//頂点のUV
 			FbxLayerElementUV* pUV = mesh->GetLayer(0)->GetUVs();
 			int uvIndex = mesh->GetTextureUVIndex(poly, vertex, FbxLayerElement::eTextureDiffuse);
 			FbxVector2  uv = pUV->GetDirectArray().GetAt(uvIndex);
-			vertices[index].uv = XMVectorSet((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f, 0.0f);
+			pVertices_[index].uv = XMVectorSet((float)uv.mData[0], (float)(1.0f - uv.mData[1]), 0.0f, 0.0f);
 
 			//頂点の法線
 			FbxVector4 normal;
 			mesh->GetPolygonVertexNormal(poly, vertex, normal);
-			vertices[index].normal = XMVectorSet((float)normal[0], (float)normal[1], (float)normal[2], 0.0f);
+			pVertices_[index].normal = XMVectorSet((float)normal[0], (float)normal[1], (float)normal[2], 0.0f);
 		}
 	}
 
@@ -163,11 +164,12 @@ void Fbx::InitVertex(FbxMesh* mesh)
 	bd_vertex.MiscFlags = 0;
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
-	data_vertex.pSysMem = vertices;
+	//data_vertex.pSysMem = vertices;
+	data_vertex.pSysMem = pVertices_.data();
 	hr = Direct3D::pDevice->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, L"頂点バッファの作成に失敗しました", L"エラー", MB_OK);
+		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
 	}
 
 
@@ -177,12 +179,15 @@ void Fbx::InitIndex(FbxMesh* mesh)
 {
 	pIndexBuffer_ = new ID3D11Buffer * [materialCount_];
 
-	int* index = new int[polygonCount_ * 3];
+	//int* index = new int[polygonCount_ * 3];
+	ppIndex_.resize(materialCount_);
 	indexCount_ = std::vector<int>(materialCount_);
+	//indexCount_ = std::vector<int>(materialCount_);
 
 	for (int i = 0; i < materialCount_; i++)
 	{
-		int count = 0;
+		//int count = 0;
+		auto& indeces = ppIndex_[i];
 
 		//全ポリゴン
 		for (long poly = 0; poly < polygonCount_; poly++)
@@ -194,13 +199,15 @@ void Fbx::InitIndex(FbxMesh* mesh)
 			{
 				for (long vertex = 0; vertex < 3; vertex++)
 				{
-					index[count] = mesh->GetPolygonVertex(poly, vertex);
-					count++;
+					//index[count] = mesh->GetPolygonVertex(poly, vertex);
+					//count++;
+					indeces.push_back(mesh->GetPolygonVertex(poly, vertex));
 				}
 			}
 		}
 
-		indexCount_[i] = count;
+		//indexCount_[i] = count;
+		indexCount_[i] = (int)indeces.size();
 
 		D3D11_BUFFER_DESC   bd;
 		bd.Usage = D3D11_USAGE_DEFAULT;
@@ -210,7 +217,8 @@ void Fbx::InitIndex(FbxMesh* mesh)
 		bd.MiscFlags = 0;
 
 		D3D11_SUBRESOURCE_DATA InitData;
-		InitData.pSysMem = index;
+		//InitData.pSysMem = index;
+		InitData.pSysMem = indeces.data();
 		InitData.SysMemPitch = 0;
 		InitData.SysMemSlicePitch = 0;
 
@@ -218,7 +226,7 @@ void Fbx::InitIndex(FbxMesh* mesh)
 		hr = Direct3D::pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer_[i]);
 		if (FAILED(hr))
 		{
-			MessageBox(NULL, L"インデックスバッファの作成に失敗しました", L"エラー", MB_OK);
+			MessageBox(NULL, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
 		}
 	}
 }
@@ -239,7 +247,7 @@ void Fbx::InitConstantBuffer()
 	hr = Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, L"コンスタントバッファの作成に失敗しました", L"エラー", MB_OK);
+		MessageBox(NULL, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);
 	}
 }
 
@@ -270,7 +278,7 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 			else
 			{
 				//テクスチャファイルが無いときの処理(エラー）
-				MessageBox(NULL, L"テクスチャファイルが見つかりませんでした", L"エラー", MB_OK);
+				MessageBox(NULL, "テクスチャファイルが見つかりませんでした", "エラー", MB_OK);
 			}
 
 		}
@@ -306,6 +314,6 @@ void Fbx::RayCast(RayCastData& rayData)
 		XMVECTOR start = XMLoadFloat4(&rayData.start);
 		XMVECTOR direction = XMLoadFloat4(&rayData.direction);
 		XMVECTOR dirN = XMVector4Normalize(direction); // directionの単位ベクトル
-		rayData.isHit = InterSects();
+		//rayData.isHit = InterSects();
 	}
 }
