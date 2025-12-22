@@ -11,13 +11,19 @@
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 
+namespace Math
+{
+	float Det(XMFLOAT3 a, XMFLOAT3 b, XMFLOAT3 c);
+	bool InterSects(XMVECTOR vOrigin, XMVECTOR vRay, XMVECTOR v0, XMVECTOR v1, XMVECTOR v2);
+}
+
 // RayCastのためのデータを用意
 struct RayCastData
 {
-	XMFLOAT4 start;
-	XMFLOAT4 direction;
-	bool isHit;
-	float distance;
+	XMFLOAT4 start; // Rayの始点
+	XMFLOAT4 direction; // Rayの方向（正規化してあること）
+	bool isHit; // 当たったかどうか
+	float distance; // 始点からの距離
 };
 
 class Fbx
@@ -53,9 +59,9 @@ class Fbx
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
 
-	std::vector<VERTEX> pVertices_; // 頂点データ全部
-	std::vector <std::vector<int>> ppIndex_; // マテリアルごとのインデックスデータ[material][index]
-	void RayCast(RayCastData& rayData);
+	std::vector<VERTEX> vertices_; // 頂点データ全部
+	std::vector<std::vector<int>> indicesPerMat_; // マテリアルごとのインデックスデータ[material][index]
+	
 
 public:
 
@@ -63,6 +69,7 @@ public:
 	HRESULT Load(std::string fileName);
 	void    Draw(Transform& transform);
 	void    Release();
+	void RayCast(RayCastData& rayData);
 
 	void InitVertex(FbxMesh* mesh);
 	void InitIndex(FbxMesh* mesh);
