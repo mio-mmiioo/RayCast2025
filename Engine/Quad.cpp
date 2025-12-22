@@ -41,7 +41,7 @@ HRESULT  Quad::Initialize()
 	data_vertex.pSysMem = vertices;
 	if (FAILED(Direct3D::pDevice->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_)))
 	{
-		MessageBox(nullptr, L"頂点バッファの作成に失敗しました", L"エラー", MB_OK);
+		MessageBox(nullptr, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
 		return E_FAIL;
 	}
 
@@ -62,7 +62,7 @@ HRESULT  Quad::Initialize()
 	InitData.SysMemSlicePitch = 0;
 	if (FAILED(Direct3D::pDevice->CreateBuffer(&bd, &InitData, &pIndexBuffer_)))
 	{
-		MessageBox(nullptr, L"インデックスバッファの作成に失敗しました", L"エラー", MB_OK);
+		MessageBox(nullptr, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
 		return E_FAIL;
 	}
 
@@ -77,7 +77,7 @@ HRESULT  Quad::Initialize()
 	cb.StructureByteStride = 0;
 	if (FAILED(Direct3D::pDevice->CreateBuffer(&cb, nullptr, &pConstantBuffer_)))
 	{
-		MessageBox(nullptr, L"コンスタントバッファの作成に失敗しました", L"エラー", MB_OK);
+		MessageBox(nullptr, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);
 		return E_FAIL;
 	}
 
@@ -85,7 +85,7 @@ HRESULT  Quad::Initialize()
 	pTexture_->Load("Assets/dice.png");
 	if (FAILED(pTexture_->Load("Assets/dice.png")))
 	{
-		MessageBox(nullptr, L"テクスチャのロードに失敗しました", L"エラー", MB_OK);
+		MessageBox(nullptr, "テクスチャのロードに失敗しました", "エラー", MB_OK);
 		return E_FAIL;
 	}
 	return S_OK;

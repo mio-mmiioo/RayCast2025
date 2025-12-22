@@ -123,3 +123,21 @@ void Stage::Release()
 	//	pFbx_ = nullptr;
 	//}
 }
+
+BOOL Stage::LocalProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message) {
+	case WM_COMMAND: //ÉRÉìÉgÉçÅ[ÉãÇÃëÄçÏ
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			EndDialog(hWnd, IDOK);
+			return TRUE;
+		case IDCANCEL:
+			EndDialog(hWnd, IDCANCEL);
+			return TRUE;
+		}
+		break;
+	}
+	return FALSE;
+}

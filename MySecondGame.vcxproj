@@ -171,6 +171,7 @@
     <ClInclude Include="Engine\Sprite.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Source\PlayScene.h" />
     <ClInclude Include="Source\Stage.h" />
     <ClInclude Include="Source\TitleScene.h" />
@@ -206,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyGameEngine2025.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

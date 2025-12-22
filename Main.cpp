@@ -8,10 +8,14 @@
 #include "Engine/Transform.h"
 #include "Engine/RootJob.h"
 #include "Engine/Model.h"
+#include "resource.h"
+#include "Source/Stage.h"
 
 #pragma comment(lib, "winmm.lib")
 
 #define MAX_LOADSTRING 100
+
+
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -20,8 +24,12 @@ const int WINDOW_HEIGHT = 600; //ウィンドウの高さB
 
 RootJob* pRootJob = nullptr;
 
+INT_PTR CALLBACK DIgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -137,6 +145,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Input::Update();
 			pRootJob->UpdateSub();
 
+			if (Input::IsKeyDown(DIK_M))
+			{
+				HWND hDlog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, DIgProc, 0);
+				ShowWindow(hDlog, SW_SHOW);
+			}
+
 			if (Input::IsKeyDown(DIK_ESCAPE))
 			{
 				PostQuitMessage(0);
@@ -157,6 +171,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Direct3D::Release();
 
 	return 0;
+}
+
+// ダイアログプロシージャ
+INT_PTR DIgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return ((Stage*)pRootJob->FindObject("Stage"))->LocalProc(hWnd, message, wParam, lParam);
 }
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
