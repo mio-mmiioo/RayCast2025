@@ -2,6 +2,7 @@
 #include "../Engine/Fbx.h"
 #include "../Engine/SphereCollider.h"
 #include "../Engine/Model.h"
+#include "../resource.h"
 
 float addX = -7.0f;
 float addZ = -7.0f;
@@ -140,4 +141,37 @@ BOOL Stage::LocalProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return FALSE;
+}
+
+BOOL Stage::ManuProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		SendMessage(GetDlgItem(hWnd, IDC_COMBO1), BM_SETCHECK, BST_CHECKED, (LPARAM)("デフォルト"));
+		SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)("レンガ"));
+		SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)("草地"));
+		SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)("砂地"));
+		SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)("水場"));
+		SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_ADDSTRING, 0, 0);
+		return true;
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDC_RADIO1:
+			mode_ = 0; // 上げ
+			return true;
+		case IDC_RADIO2:
+			mode_ = 1; // 下げ
+			return true;
+		case IDC_RADIO3:
+			mode_ = 2; // 種類変更
+			return true;
+		case IDC_COMBO1:
+			select_ = (int)SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+			return true;
+		}
+		return false;
+	}
+	return false;
 }

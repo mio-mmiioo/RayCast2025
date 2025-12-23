@@ -16,6 +16,7 @@ public:
 	void Draw() override;
 	void Release() override;
 	BOOL LocalProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	BOOL ManuProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
 	Fbx* pFbx_;
@@ -23,5 +24,6 @@ private:
 	int hModel_;
 	int hMapModel_[15 * 15];
 	std::vector<std::vector<int>> map_;
-
+	int mode_;
+	int select_;
 };

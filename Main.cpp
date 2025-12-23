@@ -25,6 +25,7 @@ const int WINDOW_HEIGHT = 600; //ウィンドウの高さB
 RootJob* pRootJob = nullptr;
 
 INT_PTR CALLBACK DIgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ManuProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -147,7 +148,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			if (Input::IsKeyDown(DIK_M))
 			{
-				HWND hDlog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, DIgProc, 0);
+				HWND hDlog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG2), hWnd, DIgProc, 0);
 				ShowWindow(hDlog, SW_SHOW);
 			}
 
@@ -177,6 +178,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 INT_PTR DIgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return ((Stage*)pRootJob->FindObject("Stage"))->LocalProc(hWnd, message, wParam, lParam);
+}
+
+INT_PTR ManuProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return ((Stage*)pRootJob->FindObject("Stage"))->ManuProc(hWnd, message, wParam, lParam);
 }
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
